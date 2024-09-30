@@ -1,0 +1,31 @@
+import re
+from collections import Counter
+
+def textFile(filename):   #with this function we will open a file that we want to read and store its text for further use
+    with open(filename, 'r') as file:
+        text = file.read()
+    return text
+
+def wordCounter(text):  # creating the function to count words of the text stored in the previous funtion
+    text = re.sub(r'[^\w\s]', '', text).lower() # Remove punctuation and convert text to lowercase
+    words = text.split()  # Split the text into individual words
+    word_count = Counter(words)#counter imported from collections
+    return word_count
+
+def Result(word_count, output_filename): # creating function to save a repot in a different file writing the modified text counted words
+    with open(output_filename, 'w') as file:
+        for word, count in word_count.most_common():  # Write each word and its count to the file
+            file.write(f"{word}: {count}\n")
+
+#after this lets put the functions to use and count the wordsfrom our sample.txt file and get the result
+filename = "sample.txt"  # specify the source file to count words from
+text = textFile(filename)
+
+
+word_count = wordCounter(text) # Count the words in the text and store it
+
+
+output_filename = "result.txt"  # specify the output file where results will be saved
+Result(word_count, output_filename)# executing the function
+
+#the result file will have all the words in the samplefile and the number of times they have been repeted it will be written in the result file if there is one in the same folder or the sytem will create a new one
